@@ -1,0 +1,47 @@
+package cup.aug;
+import java_cup.runtime.*;
+import cup.aug.Lexer;
+import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.lang.Object;
+import java.util.*;
+
+parser code {:
+  protected static Lexer lexer;
+  /*private HashMap<String,Integer> symT;*/
+  
+  public static void main(String... args) {
+  	Parser p = new Parser(lexer);
+  	try {
+  		Object result = p.parse().value;
+  		System.out.println("dupa dupna: " + result.toString());
+  	} catch (Exception e) {
+  		e.printStackTrace();
+  	}
+  	
+  }
+:}
+
+/* define how to connect to the scanner! */
+init with {:
+  File file = new File("input.txt");
+  FileInputStream fis = null;
+  try {
+    fis = new FileInputStream(file);
+  } catch (IOException e) {
+    e.printStackTrace();
+  } 
+  lexer = new Lexer(fis);
+  /*symT = new HashMap<String,Integer>();*/
+:};
+scan with {: return lexer.next_token(); :};
+
+
+terminal String     OPEN_TAG, CLOSED_TAG, CLOSING_TAG;
+
+non terminal Object      tag;
+
+tag ::= tag CLOSED_TAG:t              {: System.out.println("<" + t + ">");:}
+        | tag OPEN_TAG:o				{:  System.out.println("<" + o + ">");:}
+        | tag CLOSING_TAG:c			{:  System.out.println("<" + c + ">");:};
