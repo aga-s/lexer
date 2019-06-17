@@ -1,5 +1,7 @@
 package cup.aug;
-import java_cup.runtime.*;
+import java_cup.runtime.ComplexSymbolFactory;
+import java_cup.runtime.ComplexSymbolFactory.Location;
+import java_cup.runtime.Symbol;
 import java.lang.*;
 import java.io.InputStreamReader;
 
@@ -9,21 +11,47 @@ import java.io.InputStreamReader;
 %implements sym
 %unicode
 %ignorecase
+%line
+%column
+%char
 %cup
 
-%{   
-    String currentTagName = "";
-%}
+%{  
+     
+    private ComplexSymbolFactory symbolFactory;
+    private String currentTagName = "";
+    
+    public Lexer(ComplexSymbolFactory sf, java.io.InputStream is) {
+		this(is);
+        symbolFactory = sf;
+    }
+    
+	public Lexer(ComplexSymbolFactory sf, java.io.Reader reader) {
+		this(reader);
+        symbolFactory = sf;
+    }
+    
+    public Symbol symbol(String name, int code, String currentTagName){
+		return symbolFactory.newSymbol(name, code, 
+						new Location(yyline+1, yycolumn +1, yychar), 
+						new Location(yyline+1,yycolumn+yylength(), yychar+yylength()), currentTagName);
+    }
 
+%}
+/*komentarze jeszcze?*/
 OpenTag = "<"
-ClosingOpenTag = ">"
-ClosingClosedTag = "/>"
-OpeningClosingTag = "</"
-StartLine = {OpenTag}"!doctype html"[^>]*{ClosingOpenTag}
+CloseTag = ">"
+ClosingTag = "/>"
+OpeningTag = "</"
+StartLine = {OpenTag}"!doctype html"[^>]*{CloseTag}
 WhiteSpace = \r|\n|\r\n | [ \t\f]
-TagName = [a-zA-Z]+
+TagName = [a-zA-Z0-9]+
 Content = [^<(</)]*
-Attributes = " "[^>(/>)]*
+Attributes = " "([^>(/>)]|"/")*
+
+%eofval{
+    return symbolFactory.newSymbol("EOF",sym.EOF);
+%eofval}
 
 %state MAIN
 %state STARTTAG
@@ -34,33 +62,33 @@ Attributes = " "[^>(/>)]*
 <YYINITIAL> {
 
 	{StartLine}    	{ System.out.println(yytext() + " begin MAIN"); yybegin(MAIN); }
-	{WhiteSpace}    { System.out.println("white"); }
+	{WhiteSpace}    { /* ignore */ }
 	
 }
 
 <MAIN> {
 
-	{WhiteSpace}    		{ System.out.println("white"); }
+	{WhiteSpace}    		{ /* ignore */ }
 	{OpenTag}    			{ System.out.println(yytext() + " begin STARTTAG"); yybegin(STARTTAG); }
-	{OpeningClosingTag}    	{ System.out.println(yytext() + " begin STARTCLOSINGTAG"); yybegin(STARTCLOSINGTAG); }
-	{Content}    			{ System.out.println("content: " + yytext()); }
+	{OpeningTag}    		{ System.out.println(yytext() + " begin STARTCLOSINGTAG"); yybegin(STARTCLOSINGTAG); }
+	{Content}    			{ /* ignore */ }
 }
 
 <STARTTAG> {
 
 	{TagName}    			{ System.out.println(yytext()); currentTagName = yytext();}
-	{Attributes}    		{ System.out.println(yytext());/* ignore */ }
-	{ClosingOpenTag}    	{ System.out.println(yytext() + " begin MAIN"); yybegin(MAIN); return new Symbol(OPEN_TAG, currentTagName); }
-	{ClosingClosedTag}    	{ System.out.println(yytext() + " begin MAIN"); yybegin(MAIN); return new Symbol(CLOSED_TAG, currentTagName); }
-	{WhiteSpace}    		{ System.out.println("white"); }
+	{Attributes}    		{ /* ignore */ }
+	{CloseTag}    			{ System.out.println(yytext() + " begin MAIN " + currentTagName); yybegin(MAIN); return symbolFactory.newSymbol("OPEN_TAG", OPEN_TAG, currentTagName); }
+	{ClosingTag}    		{ System.out.println(yytext() + " begin MAIN"); yybegin(MAIN); return symbolFactory.newSymbol("CLOSING_TAG", CLOSING_TAG, currentTagName); }
+	{WhiteSpace}    		{ /* ignore */ }
 
 }
 
 <STARTCLOSINGTAG> {
 
 	{TagName}    		{ System.out.println(yytext()); currentTagName = yytext();}
-	{ClosingOpenTag}    { System.out.println(yytext() + " begin MAIN"); yybegin(MAIN); return new Symbol(CLOSING_TAG, currentTagName); }
-	{WhiteSpace}    		{ System.out.println("white"); }
+	{CloseTag}    		{ System.out.println(yytext() + " begin MAIN"); yybegin(MAIN); return symbolFactory.newSymbol("CLOSED_TAG", CLOSED_TAG, currentTagName); }
+	{WhiteSpace}    	{ /* ignore */ }
 	
 }
 

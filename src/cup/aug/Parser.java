@@ -36,8 +36,8 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\004\000\002\002\004\000\002\002\004\000\002\002" +
-    "\004\000\002\002\004" });
+    "\000\004\000\002\002\005\000\002\002\004\000\002\002" +
+    "\004\000\002\002\002" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -45,11 +45,12 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\006\000\002\001\002\000\012\002\010\004\005\005" +
-    "\007\006\006\001\002\000\012\002\uffff\004\uffff\005\uffff" +
-    "\006\uffff\001\002\000\012\002\ufffe\004\ufffe\005\ufffe\006" +
-    "\ufffe\001\002\000\012\002\001\004\001\005\001\006\001" +
-    "\001\002\000\004\002\000\001\002" });
+    "\000\010\000\010\002\ufffe\004\005\005\006\001\002\000" +
+    "\004\002\012\001\002\000\010\004\005\005\006\006\ufffe" +
+    "\001\002\000\012\002\ufffe\004\005\005\006\006\ufffe\001" +
+    "\002\000\006\002\uffff\006\uffff\001\002\000\004\006\011" +
+    "\001\002\000\006\002\001\006\001\001\002\000\004\002" +
+    "\000\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -57,9 +58,10 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\006\000\004\002\003\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001" });
+    "\000\010\000\004\002\003\001\001\000\002\001\001\000" +
+    "\004\002\007\001\001\000\004\002\006\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -102,15 +104,17 @@ public class Parser extends java_cup.runtime.lr_parser {
     {
 //@@CUPDBG1
 
-  File file = new File("input.txt");
-  FileInputStream fis = null;
-  try {
-    fis = new FileInputStream(file);
-  } catch (IOException e) {
-    e.printStackTrace();
-  } 
-  lexer = new Lexer(fis);
-  /*symT = new HashMap<String,Integer>();*/
+	ComplexSymbolFactory f = new ComplexSymbolFactory();
+  	symbolFactory = f;
+  	File file = new File("input.txt");
+  	FileInputStream fis = null;
+  	try {
+    	fis = new FileInputStream(file);
+  	} catch (IOException e) {
+    	e.printStackTrace();
+  	} 
+  	lexer = new Lexer(f, fis);
+  	/*symT = new HashMap<String,Integer>();*/
 
     }
 
@@ -130,8 +134,7 @@ public class Parser extends java_cup.runtime.lr_parser {
   public static void main(String... args) {
   	Parser p = new Parser(lexer);
   	try {
-  		Object result = p.parse().value;
-  		System.out.println("dupa dupna: " + result.toString());
+  		p.parse();
   	} catch (Exception e) {
   		e.printStackTrace();
   	}
@@ -164,15 +167,18 @@ class CUP$Parser$actions {
       switch (CUP$Parser$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 0: // tag ::= tag CLOSED_TAG 
+          case 0: // tag ::= OPEN_TAG tag CLOSING_TAG 
             {
               Object RESULT =null;
-		Location txleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xleft;
-		Location txright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
-		String t = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG3
- System.out.println("<" + t + ">");
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+  System.err.println("GRAMMATIKS: <" + o + "> <" + c + ">");
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
@@ -191,28 +197,24 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // tag ::= tag OPEN_TAG 
+          case 2: // tag ::= CLOSED_TAG tag 
             {
               Object RESULT =null;
-		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xleft;
-		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
-		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
+		Location txleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location txright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String t = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		//@@CUPDBG4
-  System.out.println("<" + o + ">");
+ System.err.println("GRAMMATIKS: <" + t + ">");
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // tag ::= tag CLOSING_TAG 
+          case 3: // tag ::= 
             {
               Object RESULT =null;
-		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xleft;
-		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
-		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
-		//@@CUPDBG5
-  System.out.println("<" + c + ">");
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 

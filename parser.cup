@@ -14,8 +14,7 @@ parser code {:
   public static void main(String... args) {
   	Parser p = new Parser(lexer);
   	try {
-  		Object result = p.parse().value;
-  		System.out.println("dupa dupna: " + result.toString());
+  		p.parse();
   	} catch (Exception e) {
   		e.printStackTrace();
   	}
@@ -25,15 +24,17 @@ parser code {:
 
 /* define how to connect to the scanner! */
 init with {:
-  File file = new File("input.txt");
-  FileInputStream fis = null;
-  try {
-    fis = new FileInputStream(file);
-  } catch (IOException e) {
-    e.printStackTrace();
-  } 
-  lexer = new Lexer(fis);
-  /*symT = new HashMap<String,Integer>();*/
+	ComplexSymbolFactory f = new ComplexSymbolFactory();
+  	symbolFactory = f;
+  	File file = new File("input.txt");
+  	FileInputStream fis = null;
+  	try {
+    	fis = new FileInputStream(file);
+  	} catch (IOException e) {
+    	e.printStackTrace();
+  	} 
+  	lexer = new Lexer(f, fis);
+  	/*symT = new HashMap<String,Integer>();*/
 :};
 scan with {: return lexer.next_token(); :};
 
@@ -42,6 +43,6 @@ terminal String     OPEN_TAG, CLOSED_TAG, CLOSING_TAG;
 
 non terminal Object      tag;
 
-tag ::= tag CLOSED_TAG:t              {: System.out.println("<" + t + ">");:}
-        | tag OPEN_TAG:o				{:  System.out.println("<" + o + ">");:}
-        | tag CLOSING_TAG:c			{:  System.out.println("<" + c + ">");:};
+tag ::= OPEN_TAG:o tag CLOSING_TAG:c				{:  System.err.println("GRAMMATIKS: <" + o + "> <" + c + ">");:}
+        | CLOSED_TAG:t tag             {: System.err.println("GRAMMATIKS: <" + t + ">");:}
+        |;
