@@ -39,11 +39,7 @@ import java.io.InputStreamReader;
 
 %}
 /*komentarze jeszcze*/
-OpenTag = "<"
-CloseTag = ">"
-ClosingTag = "/>"
-OpeningTag = "</"
-StartLine = {OpenTag}"!doctype html"[^>]*{CloseTag}
+StartLine = "<!doctype html"[^>]*">"
 WhiteSpace = \r|\n|\r\n | [ \t\f]
 TagName = [a-zA-Z0-9]+
 Content = [^<(</)]*
@@ -69,8 +65,8 @@ Attributes = (" "[a-zA-Z]+(=("[^\"]*"|[a-zA-Z]*)))+
 <MAIN> {
 
 	{WhiteSpace}    		{ /* ignore */ }
-	{OpenTag}    			{ System.out.println(yytext() + " begin STARTTAG"); yybegin(STARTTAG); }
-	{OpeningTag}    		{ System.out.println(yytext() + " begin STARTCLOSINGTAG"); yybegin(STARTCLOSINGTAG); }
+	"<"    					{ System.out.println(yytext() + " begin STARTTAG"); yybegin(STARTTAG); }
+	"</"    		{ System.out.println(yytext() + " begin STARTCLOSINGTAG"); yybegin(STARTCLOSINGTAG); }
 	{Content}    			{ /* ignore */ }
 }
 
@@ -78,8 +74,8 @@ Attributes = (" "[a-zA-Z]+(=("[^\"]*"|[a-zA-Z]*)))+
 
 	{TagName}    			{ System.out.println(yytext()); currentTagName = yytext();}
 	{Attributes}    		{ /* ignore */ }
-	{ClosingTag}    		{ System.out.println(" -> CLOSING_TAG  begin MAIN"); yybegin(MAIN); return symbolFactory.newSymbol("CLOSING_TAG", CLOSING_TAG, currentTagName); }
-	{CloseTag}    			{ System.out.println(" -> OPEN_TAG begin MAIN " + currentTagName); yybegin(MAIN); return symbolFactory.newSymbol("OPEN_TAG", OPEN_TAG, currentTagName); }
+	"/>"    		{ System.out.println(" -> CLOSING_TAG  begin MAIN"); yybegin(MAIN); return symbolFactory.newSymbol("CLOSING_TAG", CLOSING_TAG, currentTagName); }
+	">"		    			{ System.out.println(" -> OPEN_TAG begin MAIN " + currentTagName); yybegin(MAIN); return symbolFactory.newSymbol("OPEN_TAG", OPEN_TAG, currentTagName); }
 	{WhiteSpace}    		{ /* ignore */ }
 
 }
@@ -87,7 +83,7 @@ Attributes = (" "[a-zA-Z]+(=("[^\"]*"|[a-zA-Z]*)))+
 <STARTCLOSINGTAG> {
 
 	{TagName}    		{ System.out.println(yytext()); currentTagName = yytext();}
-	{CloseTag}    		{ System.out.println(" -> CLOSED_TAG  begin MAIN"); yybegin(MAIN); return symbolFactory.newSymbol("CLOSED_TAG", CLOSED_TAG, currentTagName); }
+	">"		    		{ System.out.println(" -> CLOSED_TAG  begin MAIN"); yybegin(MAIN); return symbolFactory.newSymbol("CLOSED_TAG", CLOSED_TAG, currentTagName); }
 	{WhiteSpace}    	{ /* ignore */ }
 	
 }

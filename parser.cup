@@ -44,5 +44,5 @@ terminal String     OPEN_TAG, CLOSED_TAG, CLOSING_TAG;
 non terminal Object      tag;
 
 tag ::= OPEN_TAG:o tag CLOSED_TAG:c tag			{: System.err.println("Double_trouble: <" + o + "> <" + c + ">"); :}
-        | CLOSING_TAG:t tag             {: System.err.println("Closed_Tag: <" + t + ">"); :}
-        | {: System.err.println("GRAMMATIKS: <>"); :};
+        | CLOSING_TAG:t tag             		{: System.err.println("Closed_Tag: <" + t + ">"); :}
+        | 										{: System.err.println("GRAMMATIKS: <>"); :};
