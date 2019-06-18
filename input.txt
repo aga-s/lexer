@@ -9,19 +9,24 @@
 <meta ajaktak=as >
 <TITLE sdsdsad=sd dsd=dsdasd d=ddd>Your Title Here</TITLE>
 <base ajaktak=as />
+<script></script>
 </HEAD>
 <BODY ajaktak="a/hh-%;s">
 
-<a>
-<a>
-<strong></strong>
-</a>
-<a></a>
-</a>
-
+<div>
+<div>
+<div>
+<ul>
+<li></li>
+<li></li>
+</ul>
+</div>
+</div>
+</div>
+<div>
+</div>
 
 </BODY>
-<IFRAME>
-
-</IFRAME>
+<div>
+</div>
 </HTML>

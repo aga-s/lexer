@@ -9,7 +9,7 @@ import java.util.*;
 
 parser code {:
   protected static Lexer lexer;
-  /*private HashMap<String,Integer> symT;*/
+  private static Node<String> root = new Node<>("");
   
   public static void main(String... args) {
   	Parser p = new Parser(lexer);
@@ -18,8 +18,27 @@ parser code {:
   	} catch (Exception e) {
   		e.printStackTrace();
   	}
-  	
+  	System.out.println(" <-- PRINTING XML -->");
+  	printTree(root, "  ");
   }
+  	
+  private static void printTree(Node<String> node, String appender) {
+  	System.out.println(appender + node.getValue());
+  	node.getChildren().forEach(child -> printTree(child, appender + "  "));
+  }
+  
+  private String getStartingTag(String value) {
+  	return "<" + value + ">";
+  }
+  
+  private String getEndingTag(String value) {
+  	return "</" + value + ">";
+  }
+  
+  private String getStandaloneTag(String value) {
+  	return "<" + value + "/>";
+  }
+
 :}
 
 init with {:
@@ -33,7 +52,6 @@ init with {:
     	e.printStackTrace();
   	} 
   	lexer = new Lexer(f, fis);
-  	/*symT = new HashMap<String,Integer>();*/
 :};
 
 scan with {: return lexer.next_token(); :};
@@ -50,38 +68,125 @@ terminal String     HTML_OPEN, HTML_CLOSE, HEAD_OPEN, HEAD_CLOSE, BODY_OPEN, BOD
 					LIST_TAG_OPEN, LIST_TAG_CLOSE, ITEM_TAG_OPEN, ITEM_TAG_CLOSE,
 					DIV_TAG_OPEN, DIV_TAG_CLOSE;
 
-non terminal Object      html, head_body, in_head, tag, in_table, in_row, in_aph, in_list;
+non terminal Node      html, head_body, in_head, tag, in_table, in_row, in_aph, in_list;
 
-html ::= HTML_OPEN head_body HTML_CLOSE										{: System.err.println("HTML_STRUCTURE"); :};
+html ::= HTML_OPEN:o head_body:r HTML_CLOSE:c										{: System.err.println("HTML_STRUCTURE");
+																						r.setValue(getStartingTag(o));
+																						Node n2 = new Node(getEndingTag(c));
+																						root.addChild(n2);
+																						root.addChild(r); :};
 
-head_body ::= HEAD_OPEN in_head HEAD_CLOSE BODY_OPEN tag BODY_CLOSE tag 	{: System.err.println("HEAD_BODY_STRUCTURE"); :}
-		| HEAD_OPEN in_head TITLE_TAG_OPEN TITLE_TAG_CLOSE in_head HEAD_CLOSE 
-			BODY_OPEN tag BODY_CLOSE tag 									{: System.err.println("HEAD_BODY_STRUCTURE_WITH_TITLE"); :};
+head_body ::= HEAD_OPEN:ho in_head:r1 HEAD_CLOSE:hc 
+				BODY_OPEN:bo tag:r2 BODY_CLOSE:bc tag:r3 							{: System.err.println("HEAD_BODY_STRUCTURE");
+																						r1.setValue(getStartingTag(ho));
+																						Node h2 = new Node(getEndingTag(hc));
+																						r2.setValue(getStartingTag(bo));
+																						Node b2 = new Node(getEndingTag(bc));
+																						r3.addChild(b2);
+																						r3.addChild(r2);
+																						r3.addChild(h2);
+																						r3.addChild(r1);
+																						RESULT = r3; :}
+		| HEAD_OPEN:ho in_head:rh1 TITLE_TAG_OPEN:to TITLE_TAG_CLOSE:tc in_head:rh2 HEAD_CLOSE:hc 
+			BODY_OPEN:bo tag:r1 BODY_CLOSE:bc tag:r2 								{: System.err.println("HEAD_BODY_STRUCTURE_WITH_TITLE");
+																						rh1.setValue(getStartingTag(ho));
+																						rh1.addChildAtLastPosition(new Node(getStartingTag(to)));
+																						rh1.addChildAtLastPosition(new Node(getEndingTag(tc)));
+																						rh1.addChildren(rh2.getChildren());
+																						Node h2 = new Node(getEndingTag(hc));
+																						r1.setValue(getStartingTag(bo));
+																						Node b2 = new Node(getEndingTag(bc)); 
+																						r2.addChild(b2);
+																						r2.addChild(r1);
+																						r2.addChild(h2);
+																						r2.addChild(rh1);
+																						RESULT = r2; :};
 
-in_head ::= IN_HEAD_TAG_OPEN:o in_head IN_HEAD_TAG_CLOSE:c in_head			{: System.err.println("DOUBLE_HEAD: <" + o + "> </" + c + ">"); :}
-        | IN_HEAD_TAG:t in_head             								{: System.err.println("SINGLE_HEAD: <" + t + "/>"); :}
-        | 																	{: System.err.println("E: <>"); :};
+in_head ::= IN_HEAD_TAG_OPEN:o in_head:r1 IN_HEAD_TAG_CLOSE:c in_head:r2	{: System.err.println("DOUBLE_HEAD: <" + o + "> </" + c + ">");
+																			 	r1.setValue(getStartingTag(o));
+																			 	Node n2 = new Node(getEndingTag(c));
+        																		r2.addChild(n2);
+        																		r2.addChild(r1);
+        																		RESULT = r2; :}
+        | IN_HEAD_TAG:t in_head:r             								{: System.err.println("SINGLE_HEAD: <" + t + "/>");
+        																		r.addChild(new Node(getStandaloneTag(t)));
+        																		RESULT = r; :}
+        | 																	{: System.err.println("E: <>"); RESULT = new Node(""); :};
 
-tag ::= OPEN_TAG:o CLOSE_TAG:c tag											{: System.err.println("DOUBLE_TROUBLE: <" + o + "> </" + c + ">"); :}
-        | SINGLE_TAG:t tag             										{: System.err.println("SINGLE_TAG: <" + t + "/>"); :}
-        | TABLE_TAG_OPEN:o in_table TABLE_TAG_CLOSE:c tag					{: System.err.println("TABLE: <" + o + "> </" + c + ">"); :}
-        | A_P_H_TAG_OPEN:o in_aph A_P_H_TAG_CLOSE:c tag						{: System.err.println("APH: <" + o + "> </" + c + ">"); :}
-        | A_TAG_OPEN:o in_aph A_TAG_CLOSE:c tag								{: System.err.println("A: <" + o + "> </" + c + ">"); :}
-        | LIST_TAG_OPEN:o in_list LIST_TAG_CLOSE:c tag						{: System.err.println("LIST: <" + o + "> </" + c + ">"); :}
-        | DIV_TAG_OPEN:o tag DIV_TAG_CLOSE:c tag							{: System.err.println("DIV: <" + o + "> </" + c + ">"); :}
-        | 																	{: System.err.println("E: <>"); :};
+tag ::= OPEN_TAG:o CLOSE_TAG:c tag:r										{: System.err.println("DOUBLE_TROUBLE: <" + o + "> </" + c + ">");
+																				r.addChild(new Node(getEndingTag(c)));
+																				r.addChild(new Node(getStartingTag(o)));
+																				RESULT = r; :}
+        | SINGLE_TAG:t tag:r             									{: System.err.println("SINGLE_TAG: <" + t + "/>");
+        																		r.addChild(new Node(getStandaloneTag(t)));
+        																		RESULT = r; :}
+        | TABLE_TAG_OPEN:o in_table:r1 TABLE_TAG_CLOSE:c tag:r2				{: System.err.println("TABLE: <" + o + "> </" + c + ">");
+        																		r1.setValue(getStartingTag(o));
+        																		Node n2 = new Node(getEndingTag(c));
+        																		r2.addChild(n2);
+        																		r2.addChild(r1);
+        																		RESULT = r2; :}
+        | A_P_H_TAG_OPEN:o in_aph:r1 A_P_H_TAG_CLOSE:c tag:r2				{: System.err.println("APH: <" + o + "> </" + c + ">");
+        																		r1.setValue(getStartingTag(o));
+        																		Node n2 = new Node(getEndingTag(c));
+        																		r2.addChild(n2);
+        																		r2.addChild(r1);
+        																		RESULT = r2; :}
+        | A_TAG_OPEN:o in_aph:r1 A_TAG_CLOSE:c tag:r2						{: System.err.println("A: <" + o + "> </" + c + ">");
+        																		r1.setValue(getStartingTag(o));
+        																		Node n2 = new Node(getEndingTag(c));
+        																		r2.addChild(n2);
+        																		r2.addChild(r1);
+        																		RESULT = r2; :}
+        | LIST_TAG_OPEN:o in_list:r1 LIST_TAG_CLOSE:c tag:r2				{: System.err.println("LIST: <" + o + "> </" + c + ">");
+        																		r1.setValue(getStartingTag(o));
+        																		Node n2 = new Node(getEndingTag(c)); 
+        																		r2.addChild(n2);
+        																		r2.addChild(r1); 
+        																		RESULT = r2; :}
+        | DIV_TAG_OPEN:o tag:r1 DIV_TAG_CLOSE:c tag:r2						{: System.err.println("DIV: <" + o + "> </" + c + ">"); 
+        																		r1.setValue(getStartingTag(o)); 
+        																		Node n2 = new Node(getEndingTag(c));
+        																		r2.addChild(n2);
+        																		r2.addChild(r1);
+        																		RESULT = r2; :}
+        | 																	{: System.err.println("E: <>"); RESULT = new Node(""); :};
         
-in_table ::= ROW_TAG_OPEN:o in_row ROW_TAG_CLOSE:c in_table					{: System.err.println("ROW: <" + o + "> </" + c + ">"); :}
-		| 																	{: System.err.println("E: <>"); :};
+in_table ::= ROW_TAG_OPEN:o in_row:r1 ROW_TAG_CLOSE:c in_table:r2			{: System.err.println("ROW: <" + o + "> </" + c + ">"); 
+																				r1.setValue(getStartingTag(o));
+																				Node n2 = new Node(getEndingTag(c));
+																				r2.addChild(n2);
+																				r2.addChild(r1);
+																				RESULT = r2; :}
+		| 																	{: System.err.println("E: <>"); RESULT = new Node(""); :};
 
-in_row ::= HEADER_TAG_OPEN:o HEADER_TAG_CLOSE:c in_row 						{: System.err.println("HEADER: <" + o + "> </" + c + ">"); :}
-		|	CELL_TAG_OPEN:o CELL_TAG_CLOSE:c in_row							{: System.err.println("CELL: <" + o + "> </" + c + ">"); :}
-		| 																	{: System.err.println("E: <>"); :};
+in_row ::= HEADER_TAG_OPEN:o HEADER_TAG_CLOSE:c in_row:r 					{: System.err.println("HEADER: <" + o + "> </" + c + ">");
+																				r.addChild(new Node(getEndingTag(c)));
+																				r.addChild(new Node(getStartingTag(o)));
+																				RESULT = r; :}
+		|	CELL_TAG_OPEN:o CELL_TAG_CLOSE:c in_row:r						{: System.err.println("CELL: <" + o + "> </" + c + ">");
+																				r.addChild(new Node(getEndingTag(c)));
+																				r.addChild(new Node(getStartingTag(o)));
+																				RESULT = r; :}
+		| 																	{: System.err.println("E: <>"); RESULT = new Node(""); :};
 		
-in_aph ::= IN_TEXT_TAG_OPEN:o IN_TEXT_TAG_CLOSE:c in_aph					{: System.err.println("IN_APH: <" + o + "> </" + c + ">"); :}
-		| A_TAG_OPEN:o in_aph A_TAG_CLOSE:c in_aph							{: System.err.println("Nested_A: <" + o + "> </" + c + ">"); :}
-		| IN_TEXT_TAG:t in_aph												{: System.err.println("IN_APH_SINGLE: <" + t + "/>"); :}
-		|																	{: System.err.println("E: <>"); :};
+in_aph ::= IN_TEXT_TAG_OPEN:o IN_TEXT_TAG_CLOSE:c in_aph:r					{: System.err.println("IN_APH: <" + o + "> </" + c + ">"); 
+																				r.addChild(new Node(getEndingTag(c)));
+																				r.addChild(new Node(getStartingTag(o)));
+																				RESULT = r; :}
+		| A_TAG_OPEN:o in_aph:r1 A_TAG_CLOSE:c in_aph:r2					{: System.err.println("Nested_A: <" + o + "> </" + c + ">"); 
+																				r1.setValue(getStartingTag(o));
+																				Node n2 = new Node(getEndingTag(c));
+																				r2.addChild(n2);
+																				r2.addChild(r1);
+																				RESULT = r2; :}
+		| IN_TEXT_TAG:t in_aph:r											{: System.err.println("IN_APH_SINGLE: <" + t + "/>");
+																			 	r.addChild(new Node(getStandaloneTag(t)));
+																			 	RESULT = r; :}
+		|																	{: System.err.println("E: <>"); RESULT = new Node(""); :};
 
-in_list ::= ITEM_TAG_OPEN:o ITEM_TAG_CLOSE:c in_list						{: System.err.println("IN_LIST: <" + o + "> </" + c + ">"); :}
-		|																	{: System.err.println("E: <>"); :};
+in_list ::= ITEM_TAG_OPEN:o ITEM_TAG_CLOSE:c in_list:r						{: System.err.println("IN_LIST: <" + o + "> </" + c + ">"); 
+																				r.addChild(new Node(getEndingTag(c)));
+																				r.addChild(new Node(getStartingTag(o)));
+																				RESULT = r; :}
+		|																	{: System.err.println("E: <>"); RESULT = new Node(""); :};

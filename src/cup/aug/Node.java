@@ -14,6 +14,12 @@ public class Node<String> {
 	
 	public Node<String> addChild(Node<String> child) {
 		child.setParent(this);
+		this.children.add(0, child);
+		return child;
+	}
+	
+	public Node<String> addChildAtLastPosition(Node<String> child) {
+		child.setParent(this);
 		this.children.add(child);
 		return child;
 	}
