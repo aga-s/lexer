@@ -8,17 +8,81 @@ package cup.aug;
 /** CUP generated interface containing symbol constants. */
 public interface sym {
   /* terminals */
-  public static final int OPEN_TAG = 2;
-  public static final int error = 1;
-  public static final int CLOSING_TAG = 4;
-  public static final int CLOSED_TAG = 3;
+  public static final int IN_TEXT_TAG_CLOSE = 30;
+  public static final int IN_TEXT_TAG = 28;
+  public static final int DIV_TAG_OPEN = 35;
+  public static final int CELL_TAG_CLOSE = 23;
+  public static final int A_TAG_CLOSE = 25;
+  public static final int HEAD_OPEN = 4;
+  public static final int HEADER_TAG_CLOSE = 21;
+  public static final int A_TAG_OPEN = 24;
+  public static final int BODY_OPEN = 6;
+  public static final int A_P_H_TAG_OPEN = 26;
+  public static final int ITEM_TAG_OPEN = 33;
+  public static final int SINGLE_TAG = 10;
+  public static final int DIV_TAG_CLOSE = 36;
+  public static final int TITLE_TAG_CLOSE = 15;
+  public static final int HEADER_TAG_OPEN = 20;
+  public static final int ROW_TAG_OPEN = 18;
+  public static final int A_P_H_TAG_CLOSE = 27;
+  public static final int HTML_OPEN = 2;
   public static final int EOF = 0;
+  public static final int error = 1;
+  public static final int HEAD_CLOSE = 5;
+  public static final int TABLE_TAG_OPEN = 16;
+  public static final int IN_HEAD_TAG = 11;
+  public static final int ITEM_TAG_CLOSE = 34;
+  public static final int LIST_TAG_CLOSE = 32;
+  public static final int ROW_TAG_CLOSE = 19;
+  public static final int IN_TEXT_TAG_OPEN = 29;
+  public static final int CELL_TAG_OPEN = 22;
+  public static final int BODY_CLOSE = 7;
+  public static final int TABLE_TAG_CLOSE = 17;
+  public static final int HTML_CLOSE = 3;
+  public static final int TITLE_TAG_OPEN = 14;
+  public static final int IN_HEAD_TAG_CLOSE = 13;
+  public static final int LIST_TAG_OPEN = 31;
+  public static final int OPEN_TAG = 8;
+  public static final int IN_HEAD_TAG_OPEN = 12;
+  public static final int CLOSE_TAG = 9;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "HTML_OPEN",
+  "HTML_CLOSE",
+  "HEAD_OPEN",
+  "HEAD_CLOSE",
+  "BODY_OPEN",
+  "BODY_CLOSE",
   "OPEN_TAG",
-  "CLOSED_TAG",
-  "CLOSING_TAG"
+  "CLOSE_TAG",
+  "SINGLE_TAG",
+  "IN_HEAD_TAG",
+  "IN_HEAD_TAG_OPEN",
+  "IN_HEAD_TAG_CLOSE",
+  "TITLE_TAG_OPEN",
+  "TITLE_TAG_CLOSE",
+  "TABLE_TAG_OPEN",
+  "TABLE_TAG_CLOSE",
+  "ROW_TAG_OPEN",
+  "ROW_TAG_CLOSE",
+  "HEADER_TAG_OPEN",
+  "HEADER_TAG_CLOSE",
+  "CELL_TAG_OPEN",
+  "CELL_TAG_CLOSE",
+  "A_TAG_OPEN",
+  "A_TAG_CLOSE",
+  "A_P_H_TAG_OPEN",
+  "A_P_H_TAG_CLOSE",
+  "IN_TEXT_TAG",
+  "IN_TEXT_TAG_OPEN",
+  "IN_TEXT_TAG_CLOSE",
+  "LIST_TAG_OPEN",
+  "LIST_TAG_CLOSE",
+  "ITEM_TAG_OPEN",
+  "ITEM_TAG_CLOSE",
+  "DIV_TAG_OPEN",
+  "DIV_TAG_CLOSE"
   };
 }
 

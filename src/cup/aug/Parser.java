@@ -36,8 +36,15 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\004\000\002\002\006\000\002\002\004\000\002\002" +
-    "\004\000\002\002\002" });
+    "\000\032\000\002\002\005\000\002\002\004\000\002\003" +
+    "\011\000\002\003\014\000\002\004\006\000\002\004\004" +
+    "\000\002\004\002\000\002\005\005\000\002\005\004\000" +
+    "\002\005\006\000\002\005\006\000\002\005\006\000\002" +
+    "\005\006\000\002\005\006\000\002\005\002\000\002\006" +
+    "\006\000\002\006\002\000\002\007\005\000\002\007\005" +
+    "\000\002\007\002\000\002\010\005\000\002\010\006\000" +
+    "\002\010\004\000\002\010\002\000\002\011\005\000\002" +
+    "\011\002" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -45,13 +52,66 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\011\000\010\002\ufffe\004\005\006\006\001\002\000" +
-    "\004\002\013\001\002\000\010\004\005\005\ufffe\006\006" +
-    "\001\002\000\012\002\ufffe\004\005\005\ufffe\006\006\001" +
-    "\002\000\006\002\uffff\005\uffff\001\002\000\004\005\011" +
-    "\001\002\000\012\002\ufffe\004\005\005\ufffe\006\006\001" +
-    "\002\000\006\002\001\005\001\001\002\000\004\002\000" +
-    "\001\002" });
+    "\000\112\000\004\004\004\001\002\000\004\006\007\001" +
+    "\002\000\004\002\006\001\002\000\004\002\000\001\002" +
+    "\000\012\007\ufffb\015\014\016\012\020\ufffb\001\002\000" +
+    "\004\005\011\001\002\000\004\002\001\001\002\000\010" +
+    "\015\014\016\012\017\ufffb\001\002\000\006\007\016\020" +
+    "\017\001\002\000\014\007\ufffb\015\014\016\012\017\ufffb" +
+    "\020\ufffb\001\002\000\010\007\ufffc\017\ufffc\020\ufffc\001" +
+    "\002\000\004\010\106\001\002\000\004\021\020\001\002" +
+    "\000\010\007\ufffb\015\014\016\012\001\002\000\004\007" +
+    "\022\001\002\000\004\010\023\001\002\000\022\011\ufff3" +
+    "\012\027\014\033\022\026\032\025\034\032\041\031\045" +
+    "\030\001\002\000\004\011\104\001\002\000\012\032\035" +
+    "\033\uffea\036\037\037\040\001\002\000\006\023\ufff1\024" +
+    "\064\001\002\000\004\013\062\001\002\000\022\012\027" +
+    "\014\033\022\026\032\025\034\032\041\031\045\030\046" +
+    "\ufff3\001\002\000\006\042\uffe8\043\052\001\002\000\012" +
+    "\032\035\035\uffea\036\037\037\040\001\002\000\026\005" +
+    "\ufff3\011\ufff3\012\027\014\033\022\026\032\025\034\032" +
+    "\041\031\045\030\046\ufff3\001\002\000\010\005\ufff9\011" +
+    "\ufff9\046\ufff9\001\002\000\012\032\035\033\uffea\036\037" +
+    "\037\040\001\002\000\004\035\044\001\002\000\014\032" +
+    "\035\033\uffea\035\uffea\036\037\037\040\001\002\000\004" +
+    "\040\041\001\002\000\014\032\035\033\uffea\035\uffea\036" +
+    "\037\037\040\001\002\000\006\033\uffed\035\uffed\001\002" +
+    "\000\006\033\uffeb\035\uffeb\001\002\000\026\005\ufff3\011" +
+    "\ufff3\012\027\014\033\022\026\032\025\034\032\041\031" +
+    "\045\030\046\ufff3\001\002\000\010\005\ufff7\011\ufff7\046" +
+    "\ufff7\001\002\000\004\033\047\001\002\000\014\032\035" +
+    "\033\uffea\035\uffea\036\037\037\040\001\002\000\006\033" +
+    "\uffec\035\uffec\001\002\000\004\042\055\001\002\000\004" +
+    "\044\053\001\002\000\006\042\uffe8\043\052\001\002\000" +
+    "\004\042\uffe9\001\002\000\026\005\ufff3\011\ufff3\012\027" +
+    "\014\033\022\026\032\025\034\032\041\031\045\030\046" +
+    "\ufff3\001\002\000\010\005\ufff5\011\ufff5\046\ufff5\001\002" +
+    "\000\004\046\060\001\002\000\026\005\ufff3\011\ufff3\012" +
+    "\027\014\033\022\026\032\025\034\032\041\031\045\030" +
+    "\046\ufff3\001\002\000\010\005\ufff4\011\ufff4\046\ufff4\001" +
+    "\002\000\026\005\ufff3\011\ufff3\012\027\014\033\022\026" +
+    "\032\025\034\032\041\031\045\030\046\ufff3\001\002\000" +
+    "\010\005\ufffa\011\ufffa\046\ufffa\001\002\000\010\025\uffee" +
+    "\026\072\030\071\001\002\000\004\023\066\001\002\000" +
+    "\026\005\ufff3\011\ufff3\012\027\014\033\022\026\032\025" +
+    "\034\032\041\031\045\030\046\ufff3\001\002\000\010\005" +
+    "\ufff8\011\ufff8\046\ufff8\001\002\000\004\025\077\001\002" +
+    "\000\004\031\075\001\002\000\004\027\073\001\002\000" +
+    "\010\025\uffee\026\072\030\071\001\002\000\004\025\ufff0" +
+    "\001\002\000\010\025\uffee\026\072\030\071\001\002\000" +
+    "\004\025\uffef\001\002\000\006\023\ufff1\024\064\001\002" +
+    "\000\004\023\ufff2\001\002\000\004\033\102\001\002\000" +
+    "\026\005\ufff3\011\ufff3\012\027\014\033\022\026\032\025" +
+    "\034\032\041\031\045\030\046\ufff3\001\002\000\010\005" +
+    "\ufff6\011\ufff6\046\ufff6\001\002\000\022\005\ufff3\012\027" +
+    "\014\033\022\026\032\025\034\032\041\031\045\030\001" +
+    "\002\000\004\005\ufffe\001\002\000\022\011\ufff3\012\027" +
+    "\014\033\022\026\032\025\034\032\041\031\045\030\001" +
+    "\002\000\004\011\110\001\002\000\022\005\ufff3\012\027" +
+    "\014\033\022\026\032\025\034\032\041\031\045\030\001" +
+    "\002\000\004\005\uffff\001\002\000\004\017\113\001\002" +
+    "\000\014\007\ufffb\015\014\016\012\017\ufffb\020\ufffb\001" +
+    "\002\000\010\007\ufffd\017\ufffd\020\ufffd\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -59,10 +119,34 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\011\000\004\002\003\001\001\000\002\001\001\000" +
-    "\004\002\007\001\001\000\004\002\006\001\001\000\002" +
-    "\001\001\000\002\001\001\000\004\002\011\001\001\000" +
-    "\002\001\001\000\002\001\001" });
+    "\000\112\000\004\002\004\001\001\000\004\003\007\001" +
+    "\001\000\002\001\001\000\002\001\001\000\004\004\012" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\004" +
+    "\111\001\001\000\002\001\001\000\004\004\014\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\004\004\020\001\001\000\002\001\001\000\002\001\001" +
+    "\000\004\005\023\001\001\000\002\001\001\000\004\010" +
+    "\100\001\001\000\004\006\064\001\001\000\002\001\001" +
+    "\000\004\005\056\001\001\000\004\011\050\001\001\000" +
+    "\004\010\035\001\001\000\004\005\033\001\001\000\002" +
+    "\001\001\000\004\010\045\001\001\000\002\001\001\000" +
+    "\004\010\042\001\001\000\002\001\001\000\004\010\041" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\005" +
+    "\044\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\010\047\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\004\011\053\001\001\000\002\001\001" +
+    "\000\004\005\055\001\001\000\002\001\001\000\002\001" +
+    "\001\000\004\005\060\001\001\000\002\001\001\000\004" +
+    "\005\062\001\001\000\002\001\001\000\004\007\067\001" +
+    "\001\000\002\001\001\000\004\005\066\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
+    "\001\000\004\007\073\001\001\000\002\001\001\000\004" +
+    "\007\075\001\001\000\002\001\001\000\004\006\077\001" +
+    "\001\000\002\001\001\000\002\001\001\000\004\005\102" +
+    "\001\001\000\002\001\001\000\004\005\104\001\001\000" +
+    "\002\001\001\000\004\005\106\001\001\000\002\001\001" +
+    "\000\004\005\110\001\001\000\002\001\001\000\002\001" +
+    "\001\000\004\004\113\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -168,23 +252,17 @@ class CUP$Parser$actions {
       switch (CUP$Parser$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 0: // tag ::= OPEN_TAG tag CLOSED_TAG tag 
+          case 0: // html ::= HTML_OPEN head_body HTML_CLOSE 
             {
               Object RESULT =null;
-		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xleft;
-		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xright;
-		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
-		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
-		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
-		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
 		//@@CUPDBG3
- System.err.println("Double_trouble: <" + o + "> <" + c + ">"); 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+ System.err.println("HTML_STRUCTURE"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("html",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // $START ::= tag EOF 
+          case 1: // $START ::= html EOF 
             {
               Object RESULT =null;
 		Location start_valxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
@@ -198,25 +276,329 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // tag ::= CLOSING_TAG tag 
+          case 2: // head_body ::= HEAD_OPEN in_head HEAD_CLOSE BODY_OPEN tag BODY_CLOSE tag 
+            {
+              Object RESULT =null;
+		//@@CUPDBG4
+ System.err.println("HEAD_BODY_STRUCTURE"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("head_body",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 3: // head_body ::= HEAD_OPEN in_head TITLE_TAG_OPEN TITLE_TAG_CLOSE in_head HEAD_CLOSE BODY_OPEN tag BODY_CLOSE tag 
+            {
+              Object RESULT =null;
+		//@@CUPDBG5
+ System.err.println("HEAD_BODY_STRUCTURE_WITH_TITLE"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("head_body",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-9)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 4: // in_head ::= IN_HEAD_TAG_OPEN in_head IN_HEAD_TAG_CLOSE in_head 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG6
+ System.err.println("DOUBLE_HEAD: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_head",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 5: // in_head ::= IN_HEAD_TAG in_head 
             {
               Object RESULT =null;
 		Location txleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
 		Location txright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
 		String t = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
-		//@@CUPDBG4
- System.err.println("Closed_Tag: <" + t + ">"); 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+		//@@CUPDBG7
+ System.err.println("SINGLE_HEAD: <" + t + "/>"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_head",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // tag ::= 
+          case 6: // in_head ::= 
             {
               Object RESULT =null;
-		//@@CUPDBG5
- System.err.println("GRAMMATIKS: <>"); 
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+		//@@CUPDBG8
+ System.err.println("E: <>"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_head",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // tag ::= OPEN_TAG CLOSE_TAG tag 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG9
+ System.err.println("DOUBLE_TROUBLE: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 8: // tag ::= SINGLE_TAG tag 
+            {
+              Object RESULT =null;
+		Location txleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location txright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String t = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG10
+ System.err.println("SINGLE_TAG: <" + t + "/>"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 9: // tag ::= TABLE_TAG_OPEN in_table TABLE_TAG_CLOSE tag 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG11
+ System.err.println("TABLE: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 10: // tag ::= A_P_H_TAG_OPEN in_aph A_P_H_TAG_CLOSE tag 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG12
+ System.err.println("APH: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 11: // tag ::= A_TAG_OPEN in_aph A_TAG_CLOSE tag 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG13
+ System.err.println("A: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 12: // tag ::= LIST_TAG_OPEN in_list LIST_TAG_CLOSE tag 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG14
+ System.err.println("LIST: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 13: // tag ::= DIV_TAG_OPEN tag DIV_TAG_CLOSE tag 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG15
+ System.err.println("DIV: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 14: // tag ::= 
+            {
+              Object RESULT =null;
+		//@@CUPDBG16
+ System.err.println("E: <>"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 15: // in_table ::= ROW_TAG_OPEN in_row ROW_TAG_CLOSE in_table 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG17
+ System.err.println("ROW: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_table",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 16: // in_table ::= 
+            {
+              Object RESULT =null;
+		//@@CUPDBG18
+ System.err.println("E: <>"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_table",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 17: // in_row ::= HEADER_TAG_OPEN HEADER_TAG_CLOSE in_row 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG19
+ System.err.println("HEADER: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_row",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 18: // in_row ::= CELL_TAG_OPEN CELL_TAG_CLOSE in_row 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG20
+ System.err.println("CELL: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_row",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 19: // in_row ::= 
+            {
+              Object RESULT =null;
+		//@@CUPDBG21
+ System.err.println("E: <>"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_row",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 20: // in_aph ::= IN_TEXT_TAG_OPEN IN_TEXT_TAG_CLOSE in_aph 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG22
+ System.err.println("IN_APH: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_aph",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 21: // in_aph ::= A_TAG_OPEN in_aph A_TAG_CLOSE in_aph 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-3)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG23
+ System.err.println("Nested_A: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_aph",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 22: // in_aph ::= IN_TEXT_TAG in_aph 
+            {
+              Object RESULT =null;
+		Location txleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location txright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String t = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG24
+ System.err.println("IN_APH_SINGLE: <" + t + "/>"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_aph",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 23: // in_aph ::= 
+            {
+              Object RESULT =null;
+		//@@CUPDBG25
+ System.err.println("E: <>"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_aph",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 24: // in_list ::= ITEM_TAG_OPEN ITEM_TAG_CLOSE in_list 
+            {
+              Object RESULT =null;
+		Location oxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xleft;
+		Location oxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).xright;
+		String o = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-2)).value;
+		Location cxleft = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xleft;
+		Location cxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).xright;
+		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.elementAt(CUP$Parser$top-1)).value;
+		//@@CUPDBG26
+ System.err.println("IN_LIST: <" + o + "> </" + c + ">"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_list",7, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 25: // in_list ::= 
+            {
+              Object RESULT =null;
+		//@@CUPDBG27
+ System.err.println("E: <>"); 
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_list",7, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 

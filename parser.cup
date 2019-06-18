@@ -22,7 +22,6 @@ parser code {:
   }
 :}
 
-/* define how to connect to the scanner! */
 init with {:
 	ComplexSymbolFactory f = new ComplexSymbolFactory();
   	symbolFactory = f;
@@ -36,13 +35,53 @@ init with {:
   	lexer = new Lexer(f, fis);
   	/*symT = new HashMap<String,Integer>();*/
 :};
+
 scan with {: return lexer.next_token(); :};
 
+terminal String     HTML_OPEN, HTML_CLOSE, HEAD_OPEN, HEAD_CLOSE, BODY_OPEN, BODY_CLOSE,
+					OPEN_TAG, CLOSE_TAG, SINGLE_TAG, 
+					IN_HEAD_TAG, IN_HEAD_TAG_OPEN, IN_HEAD_TAG_CLOSE,
+					TITLE_TAG_OPEN, TITLE_TAG_CLOSE, 
+					TABLE_TAG_OPEN, TABLE_TAG_CLOSE, 
+					ROW_TAG_OPEN, ROW_TAG_CLOSE, 
+					HEADER_TAG_OPEN, HEADER_TAG_CLOSE, 
+					CELL_TAG_OPEN, CELL_TAG_CLOSE,
+					A_TAG_OPEN, A_TAG_CLOSE, A_P_H_TAG_OPEN, A_P_H_TAG_CLOSE, IN_TEXT_TAG, IN_TEXT_TAG_OPEN, IN_TEXT_TAG_CLOSE,
+					LIST_TAG_OPEN, LIST_TAG_CLOSE, ITEM_TAG_OPEN, ITEM_TAG_CLOSE,
+					DIV_TAG_OPEN, DIV_TAG_CLOSE;
 
-terminal String     OPEN_TAG, CLOSED_TAG, CLOSING_TAG;
+non terminal Object      html, head_body, in_head, tag, in_table, in_row, in_aph, in_list;
 
-non terminal Object      tag;
+html ::= HTML_OPEN head_body HTML_CLOSE										{: System.err.println("HTML_STRUCTURE"); :};
 
-tag ::= OPEN_TAG:o tag CLOSED_TAG:c tag			{: System.err.println("Double_trouble: <" + o + "> <" + c + ">"); :}
-        | CLOSING_TAG:t tag             		{: System.err.println("Closed_Tag: <" + t + ">"); :}
-        | 										{: System.err.println("GRAMMATIKS: <>"); :};
+head_body ::= HEAD_OPEN in_head HEAD_CLOSE BODY_OPEN tag BODY_CLOSE tag 	{: System.err.println("HEAD_BODY_STRUCTURE"); :}
+		| HEAD_OPEN in_head TITLE_TAG_OPEN TITLE_TAG_CLOSE in_head HEAD_CLOSE 
+			BODY_OPEN tag BODY_CLOSE tag 									{: System.err.println("HEAD_BODY_STRUCTURE_WITH_TITLE"); :};
+
+in_head ::= IN_HEAD_TAG_OPEN:o in_head IN_HEAD_TAG_CLOSE:c in_head			{: System.err.println("DOUBLE_HEAD: <" + o + "> </" + c + ">"); :}
+        | IN_HEAD_TAG:t in_head             								{: System.err.println("SINGLE_HEAD: <" + t + "/>"); :}
+        | 																	{: System.err.println("E: <>"); :};
+
+tag ::= OPEN_TAG:o CLOSE_TAG:c tag											{: System.err.println("DOUBLE_TROUBLE: <" + o + "> </" + c + ">"); :}
+        | SINGLE_TAG:t tag             										{: System.err.println("SINGLE_TAG: <" + t + "/>"); :}
+        | TABLE_TAG_OPEN:o in_table TABLE_TAG_CLOSE:c tag					{: System.err.println("TABLE: <" + o + "> </" + c + ">"); :}
+        | A_P_H_TAG_OPEN:o in_aph A_P_H_TAG_CLOSE:c tag						{: System.err.println("APH: <" + o + "> </" + c + ">"); :}
+        | A_TAG_OPEN:o in_aph A_TAG_CLOSE:c tag								{: System.err.println("A: <" + o + "> </" + c + ">"); :}
+        | LIST_TAG_OPEN:o in_list LIST_TAG_CLOSE:c tag						{: System.err.println("LIST: <" + o + "> </" + c + ">"); :}
+        | DIV_TAG_OPEN:o tag DIV_TAG_CLOSE:c tag							{: System.err.println("DIV: <" + o + "> </" + c + ">"); :}
+        | 																	{: System.err.println("E: <>"); :};
+        
+in_table ::= ROW_TAG_OPEN:o in_row ROW_TAG_CLOSE:c in_table					{: System.err.println("ROW: <" + o + "> </" + c + ">"); :}
+		| 																	{: System.err.println("E: <>"); :};
+
+in_row ::= HEADER_TAG_OPEN:o HEADER_TAG_CLOSE:c in_row 						{: System.err.println("HEADER: <" + o + "> </" + c + ">"); :}
+		|	CELL_TAG_OPEN:o CELL_TAG_CLOSE:c in_row							{: System.err.println("CELL: <" + o + "> </" + c + ">"); :}
+		| 																	{: System.err.println("E: <>"); :};
+		
+in_aph ::= IN_TEXT_TAG_OPEN:o IN_TEXT_TAG_CLOSE:c in_aph					{: System.err.println("IN_APH: <" + o + "> </" + c + ">"); :}
+		| A_TAG_OPEN:o in_aph A_TAG_CLOSE:c in_aph							{: System.err.println("Nested_A: <" + o + "> </" + c + ">"); :}
+		| IN_TEXT_TAG:t in_aph												{: System.err.println("IN_APH_SINGLE: <" + t + "/>"); :}
+		|																	{: System.err.println("E: <>"); :};
+
+in_list ::= ITEM_TAG_OPEN:o ITEM_TAG_CLOSE:c in_list						{: System.err.println("IN_LIST: <" + o + "> </" + c + ">"); :}
+		|																	{: System.err.println("E: <>"); :};
