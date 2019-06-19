@@ -143,7 +143,7 @@ import java.io.InputStreamReader;
 
 StartLine = "<!doctype html"[^>]*">"
 WhiteSpace = \r|\n|\r\n | [ \t\f]
-Attributes = ({WhiteSpace}*[a-zA-Z]+(=(\"[^\"]*\"|[a-zA-Z]*)))+
+Attributes = {WhiteSpace}*[a-zA-Z]+(=(\"[^\"]*\"|[a-zA-Z]*))
 TagName = [a-zA-Z0-9]+
 Content = [^<]*
 InsideComment = .*?

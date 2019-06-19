@@ -223,12 +223,12 @@ public class Parser extends java_cup.runtime.lr_parser {
   		e.printStackTrace();
   	}
   	System.out.println(" <-- PRINTING XML -->");
-  	printTree(root, "  ");
+  	printTree(root, "    ");
   }
   	
   private static void printTree(Node<String> node, String appender) {
   	System.out.println(appender + node.getValue());
-  	node.getChildren().forEach(child -> printTree(child, appender + "  "));
+  	node.getChildren().forEach(child -> printTree(child, appender + "    "));
   }
   
   private String getStartingTag(String value) {
@@ -415,7 +415,7 @@ class CUP$Parser$actions {
 		Location r2xright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
 		Node r2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG6
- System.err.println("DOUBLE_HEAD: <" + o + "> </" + c + ">");
+ System.err.println("DOUBLE_IN_HEAD: <" + o + "> </" + c + ">");
 																			 	r1.setValue(getStartingTag(o));
 																			 	Node n2 = new Node(getEndingTag(c));
         																		r2.addChild(n2);
@@ -436,7 +436,7 @@ class CUP$Parser$actions {
 		Location rxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
 		Node r = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG7
- System.err.println("SINGLE_HEAD: <" + t + "/>");
+ System.err.println("SINGLE_IN_HEAD: <" + t + "/>");
         																		r.addChild(new Node(getStandaloneTag(t)));
         																		RESULT = r; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_head",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
@@ -467,7 +467,7 @@ class CUP$Parser$actions {
 		Location rxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
 		Node r = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG9
- System.err.println("DOUBLE_TROUBLE: <" + o + "> </" + c + ">");
+ System.err.println("DOUBLE_TAG: <" + o + "> </" + c + ">");
 																				r.addChild(new Node(getEndingTag(c)));
 																				r.addChild(new Node(getStartingTag(o)));
 																				RESULT = r; 
@@ -768,7 +768,7 @@ class CUP$Parser$actions {
 		Location r2xright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
 		Node r2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG23
- System.err.println("Nested_A: <" + o + "> </" + c + ">"); 
+ System.err.println("NESTED_A: <" + o + "> </" + c + ">"); 
 																				r1.setValue(getStartingTag(o));
 																				Node n2 = new Node(getEndingTag(c));
 																				r2.addChild(n2);
