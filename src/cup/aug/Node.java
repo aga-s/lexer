@@ -29,6 +29,10 @@ public class Node<String> {
 		this.children.addAll(children);
 	}
 	
+	public boolean hasChildren() {
+		return this.children.size() > 0;
+	}
+	
 	public List<Node<String>> getChildren() {
 		return this.children;
 	}

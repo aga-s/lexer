@@ -222,8 +222,8 @@ public class Parser extends java_cup.runtime.lr_parser {
   	} catch (Exception e) {
   		e.printStackTrace();
   	}
-  	System.out.println(" <-- PRINTING XML -->");
-  	printTree(root, "    ");
+  	System.out.println("  <-- PRINTING XML -->");
+  	printTree(root, "");
   }
   	
   private static void printTree(Node<String> node, String appender) {
@@ -284,10 +284,15 @@ class CUP$Parser$actions {
 		String c = (String)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG3
  System.err.println("HTML_STRUCTURE");
-																						r.setValue(getStartingTag(o));
-																						Node n2 = new Node(getEndingTag(c));
-																						root.addChild(n2);
-																						root.addChild(r); 
+																						if (r.hasChildren()) {
+																							r.setValue(getStartingTag(o));
+																							Node n2 = new Node(getEndingTag(c));
+																							root.addChild(n2);
+																							root.addChild(r);
+																						} else {
+																							r.setValue(getStartingTag(o) + getEndingTag(c));
+																							root.addChild(r);
+																						} 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("html",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
@@ -333,14 +338,24 @@ class CUP$Parser$actions {
 		Node r3 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG4
  System.err.println("HEAD_BODY_STRUCTURE");
-																						r1.setValue(getStartingTag(ho));
-																						Node h2 = new Node(getEndingTag(hc));
-																						r2.setValue(getStartingTag(bo));
-																						Node b2 = new Node(getEndingTag(bc));
-																						r3.addChild(b2);
-																						r3.addChild(r2);
-																						r3.addChild(h2);
-																						r3.addChild(r1);
+																						if (r2.hasChildren()) {
+																							r2.setValue(getStartingTag(bo));
+																							Node b2 = new Node(getEndingTag(bc));
+																							r3.addChild(b2);
+																							r3.addChild(r2);
+																						} else {
+																							r2.setValue(getStartingTag(bo) + getEndingTag(bc));
+																							r3.addChild(r2);
+																						}
+																						if (r1.hasChildren()) {
+																							r1.setValue(getStartingTag(ho));
+																							Node h2 = new Node(getEndingTag(hc));
+																							r3.addChild(h2);
+																							r3.addChild(r1);
+																						} else {
+																							r1.setValue(getStartingTag(ho)+getEndingTag(hc));
+																							r3.addChild(r1);
+																						}
 																						RESULT = r3; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("head_body",1, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-6)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -383,14 +398,18 @@ class CUP$Parser$actions {
 		//@@CUPDBG5
  System.err.println("HEAD_BODY_STRUCTURE_WITH_TITLE");
 																						rh1.setValue(getStartingTag(ho));
-																						rh1.addChildAtLastPosition(new Node(getStartingTag(to)));
-																						rh1.addChildAtLastPosition(new Node(getEndingTag(tc)));
+																						rh1.addChildAtLastPosition(new Node(getStartingTag(to) + getEndingTag(tc)));
 																						rh1.addChildren(rh2.getChildren());
 																						Node h2 = new Node(getEndingTag(hc));
-																						r1.setValue(getStartingTag(bo));
-																						Node b2 = new Node(getEndingTag(bc)); 
-																						r2.addChild(b2);
-																						r2.addChild(r1);
+																						if (r1.hasChildren()) {
+																							r1.setValue(getStartingTag(bo));
+																							Node b2 = new Node(getEndingTag(bc)); 
+																							r2.addChild(b2);
+																							r2.addChild(r1);
+																						} else {
+																							r1.setValue(getStartingTag(bo) + getEndingTag(bc));
+																							r2.addChild(r1);
+																						}
 																						r2.addChild(h2);
 																						r2.addChild(rh1);
 																						RESULT = r2; 
@@ -416,10 +435,15 @@ class CUP$Parser$actions {
 		Node r2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG6
  System.err.println("DOUBLE_IN_HEAD: <" + o + "> </" + c + ">");
-																			 	r1.setValue(getStartingTag(o));
-																			 	Node n2 = new Node(getEndingTag(c));
-        																		r2.addChild(n2);
-        																		r2.addChild(r1);
+																			 	if (r1.hasChildren()) {
+        																			r1.setValue(getStartingTag(o));
+        																			Node n2 = new Node(getEndingTag(c)); 
+        																			r2.addChild(n2);
+        																			r2.addChild(r1);
+        																		} else {
+        																			r1.setValue(getStartingTag(o) + getEndingTag(c));
+        																			r2.addChild(r1);
+        																		}
         																		RESULT = r2; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_head",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -468,8 +492,7 @@ class CUP$Parser$actions {
 		Node r = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG9
  System.err.println("DOUBLE_TAG: <" + o + "> </" + c + ">");
-																				r.addChild(new Node(getEndingTag(c)));
-																				r.addChild(new Node(getStartingTag(o)));
+																				r.addChild(new Node(getStartingTag(o) + getEndingTag(c)));
 																				RESULT = r; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -511,10 +534,15 @@ class CUP$Parser$actions {
 		Node r2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG11
  System.err.println("TABLE: <" + o + "> </" + c + ">");
-        																		r1.setValue(getStartingTag(o));
-        																		Node n2 = new Node(getEndingTag(c));
-        																		r2.addChild(n2);
-        																		r2.addChild(r1);
+        																		if (r1.hasChildren()) {
+        																			r1.setValue(getStartingTag(o));
+        																			Node n2 = new Node(getEndingTag(c)); 
+        																			r2.addChild(n2);
+        																			r2.addChild(r1);
+        																		} else {
+        																			r1.setValue(getStartingTag(o) + getEndingTag(c));
+        																			r2.addChild(r1);
+        																		}
         																		RESULT = r2; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -538,10 +566,15 @@ class CUP$Parser$actions {
 		Node r2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG12
  System.err.println("APH: <" + o + "> </" + c + ">");
-        																		r1.setValue(getStartingTag(o));
-        																		Node n2 = new Node(getEndingTag(c));
-        																		r2.addChild(n2);
-        																		r2.addChild(r1);
+        																		if (r1.hasChildren()) {
+        																			r1.setValue(getStartingTag(o));
+        																			Node n2 = new Node(getEndingTag(c)); 
+        																			r2.addChild(n2);
+        																			r2.addChild(r1);
+        																		} else {
+        																			r1.setValue(getStartingTag(o) + getEndingTag(c));
+        																			r2.addChild(r1);
+        																		}
         																		RESULT = r2; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -565,10 +598,15 @@ class CUP$Parser$actions {
 		Node r2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG13
  System.err.println("A: <" + o + "> </" + c + ">");
-        																		r1.setValue(getStartingTag(o));
-        																		Node n2 = new Node(getEndingTag(c));
-        																		r2.addChild(n2);
-        																		r2.addChild(r1);
+        																		if (r1.hasChildren()) {
+        																			r1.setValue(getStartingTag(o));
+        																			Node n2 = new Node(getEndingTag(c)); 
+        																			r2.addChild(n2);
+        																			r2.addChild(r1);
+        																		} else {
+        																			r1.setValue(getStartingTag(o) + getEndingTag(c));
+        																			r2.addChild(r1);
+        																		}
         																		RESULT = r2; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -592,10 +630,15 @@ class CUP$Parser$actions {
 		Node r2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG14
  System.err.println("LIST: <" + o + "> </" + c + ">");
-        																		r1.setValue(getStartingTag(o));
-        																		Node n2 = new Node(getEndingTag(c)); 
-        																		r2.addChild(n2);
-        																		r2.addChild(r1); 
+        																		if (r1.hasChildren()) {
+        																			r1.setValue(getStartingTag(o));
+        																			Node n2 = new Node(getEndingTag(c)); 
+        																			r2.addChild(n2);
+        																			r2.addChild(r1);
+        																		} else {
+        																			r1.setValue(getStartingTag(o) + getEndingTag(c));
+        																			r2.addChild(r1);
+        																		}
         																		RESULT = r2; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -619,10 +662,15 @@ class CUP$Parser$actions {
 		Node r2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG15
  System.err.println("DIV: <" + o + "> </" + c + ">"); 
-        																		r1.setValue(getStartingTag(o)); 
-        																		Node n2 = new Node(getEndingTag(c));
-        																		r2.addChild(n2);
-        																		r2.addChild(r1);
+        																		if (r1.hasChildren()) {
+        																			r1.setValue(getStartingTag(o)); 
+        																			Node n2 = new Node(getEndingTag(c));
+        																			r2.addChild(n2);
+        																			r2.addChild(r1);
+        																		} else {
+        																			r1.setValue(getStartingTag(o) + getEndingTag(c));
+        																			r2.addChild(r1);
+        																		}
         																		RESULT = r2; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("tag",3, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -656,10 +704,15 @@ class CUP$Parser$actions {
 		Node r2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG17
  System.err.println("ROW: <" + o + "> </" + c + ">"); 
-																				r1.setValue(getStartingTag(o));
-																				Node n2 = new Node(getEndingTag(c));
-																				r2.addChild(n2);
-																				r2.addChild(r1);
+																				if (r1.hasChildren()) {
+																					r1.setValue(getStartingTag(o));
+																					Node n2 = new Node(getEndingTag(c));
+																					r2.addChild(n2);
+																					r2.addChild(r1);
+																				} else {
+																					r1.setValue(getStartingTag(o) + getEndingTag(c));
+																					r2.addChild(r1);
+																				}
 																				RESULT = r2; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_table",4, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -690,8 +743,7 @@ class CUP$Parser$actions {
 		Node r = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG19
  System.err.println("HEADER: <" + o + "> </" + c + ">");
-																				r.addChild(new Node(getEndingTag(c)));
-																				r.addChild(new Node(getStartingTag(o)));
+																				r.addChild(new Node(getStartingTag(o) + getEndingTag(c)));
 																				RESULT = r; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_row",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -712,8 +764,7 @@ class CUP$Parser$actions {
 		Node r = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG20
  System.err.println("CELL: <" + o + "> </" + c + ">");
-																				r.addChild(new Node(getEndingTag(c)));
-																				r.addChild(new Node(getStartingTag(o)));
+																				r.addChild(new Node(getStartingTag(o) + getEndingTag(c)));
 																				RESULT = r; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_row",5, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -743,9 +794,8 @@ class CUP$Parser$actions {
 		Location rxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
 		Node r = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG22
- System.err.println("IN_APH: <" + o + "> </" + c + ">"); 
-																				r.addChild(new Node(getEndingTag(c)));
-																				r.addChild(new Node(getStartingTag(o)));
+ System.err.println("IN_APH: <" + o + "> </" + c + ">");
+																				r.addChild(new Node(getStartingTag(o) + getEndingTag(c)));
 																				RESULT = r; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_aph",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -769,10 +819,15 @@ class CUP$Parser$actions {
 		Node r2 = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG23
  System.err.println("NESTED_A: <" + o + "> </" + c + ">"); 
-																				r1.setValue(getStartingTag(o));
-																				Node n2 = new Node(getEndingTag(c));
-																				r2.addChild(n2);
-																				r2.addChild(r1);
+																				if (r1.hasChildren()) {
+																					r1.setValue(getStartingTag(o));
+																					Node n2 = new Node(getEndingTag(c));
+																					r2.addChild(n2);
+																					r2.addChild(r1);
+																				} else {
+																					r1.setValue(getStartingTag(o) + getEndingTag(c));
+																					r2.addChild(r1);
+																				}
 																				RESULT = r2; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_aph",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-3)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -820,9 +875,8 @@ class CUP$Parser$actions {
 		Location rxright = ((java_cup.runtime.ComplexSymbolFactory.ComplexSymbol)CUP$Parser$stack.peek()).xright;
 		Node r = (Node)((java_cup.runtime.Symbol) CUP$Parser$stack.peek()).value;
 		//@@CUPDBG26
- System.err.println("IN_LIST: <" + o + "> </" + c + ">"); 
-																				r.addChild(new Node(getEndingTag(c)));
-																				r.addChild(new Node(getStartingTag(o)));
+ System.err.println("IN_LIST: <" + o + "> </" + c + ">");
+																				r.addChild(new Node(getStartingTag(o) + getEndingTag(c)));
 																				RESULT = r; 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("in_list",7, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
